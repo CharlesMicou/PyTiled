@@ -1,3 +1,5 @@
+#PyTiled game engine
+
 import os
 import string
 import sys
