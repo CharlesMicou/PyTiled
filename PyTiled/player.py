@@ -147,5 +147,26 @@ def ApplyPlayerActions(LevelData, PlayerObject):
 
 			direction = [direction[0]*projectilespeed, direction[1]*projectilespeed]
 
-			LevelData.AddObject(physics.Bouncer(pygame.image.load('Resources/Images/testprojectile.gif'),spawnpoint, direction, [0,0], 1))
+			#create the projectile
+			projectile = physics.Bouncer(pygame.image.load('Resources/Images/testprojectile.gif'),spawnpoint, direction, [0,0], 1)
+
+			#make sure we didn't spawn it in a wall
+
+			if projectile.rect.collidelist(LevelData.CollisionMap) == -1:
+
+				collideables = []
+				for item in LevelData.MapObjects:
+					if isinstance(item, physics.Particle):
+						if item.collision == True:				
+							collideables.append(item)
+
+				colliderlist = []
+				for particle in collideables:
+					colliderlist.append(particle.rect)
+
+				collisionindex = projectile.rect.collidelist(colliderlist)
+				if collisionindex == -1:
+					LevelData.AddObject(physics.Bouncer(pygame.image.load('Resources/Images/testprojectile.gif'),spawnpoint, direction, [0,0], 1))
+
+			
 
