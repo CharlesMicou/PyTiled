@@ -6,6 +6,7 @@ import sprite
 import sys
 import os
 import string
+import math
 from pygame.locals import *
 
 
@@ -15,6 +16,7 @@ class PlayerObject(sprite.Sprite, physics.Particle):
 		sprite.Sprite.__init__(self, ImageFilePath, framecount, framerate)
 		physics.Particle.__init__(self, self.currentframe, Coordinates, [0.0, 0.0], [0.0, 0.0], True)
 		self.controls = Controls()
+		self.maxspeed = 2
 
 	def Refresh(self):
 		#More things can go in here as necessary
@@ -22,29 +24,44 @@ class PlayerObject(sprite.Sprite, physics.Particle):
 		self.ApplyControls()
 
 	def ApplyControls(self):
-		self.speed[0] = 2*(int(self.controls.right) - int(self.controls.left))
-		self.speed[1] = 2*(int(self.controls.down) - int(self.controls.up))
+
+		#for the moment change player responsiveness in here
+		if self.controls.right == False and self.controls.left == False:
+			self.acceleration[0] = -self.speed[0]/1
+		else: 
+			self.acceleration[0] =  float((int(self.controls.right) - int(self.controls.left)))/1
+
+		if self.controls.down == False and self.controls.up == False:
+			self.acceleration[1] = -self.speed[1]/1
+		else: 
+			self.acceleration[1] =  float((int(self.controls.down) - int(self.controls.up)))/1
+
+		absolutespeed = math.sqrt(self.speed[0]**2 + self.speed[1]**2)
+
+		if absolutespeed > self.maxspeed:
+			self.speed = [self.speed[0]/absolutespeed*self.maxspeed, self.speed[1]/absolutespeed*self.maxspeed]
+
 
 	def UpdateControls(self, keyevent):
 
 		if keyevent.type == KEYDOWN:
-			if keyevent.key == K_UP:
+			if keyevent.key == K_UP or keyevent.key == K_w:
 				self.controls.up = True
-			if keyevent.key == K_DOWN:
+			if keyevent.key == K_DOWN or keyevent.key == K_s:
 				self.controls.down = True
-			if keyevent.key == K_LEFT:
+			if keyevent.key == K_LEFT or keyevent.key == K_a:
 				self.controls.left = True
-			if keyevent.key == K_RIGHT:
+			if keyevent.key == K_RIGHT or keyevent.key == K_d:
 				self.controls.right = True
 
 		elif keyevent.type == KEYUP:
-			if keyevent.key == K_UP:
+			if keyevent.key == K_UP or keyevent.key == K_w:
 				self.controls.up = False
-			if keyevent.key == K_DOWN:
+			if keyevent.key == K_DOWN or keyevent.key == K_s:
 				self.controls.down = False
-			if keyevent.key == K_LEFT:
+			if keyevent.key == K_LEFT or keyevent.key == K_a:
 				self.controls.left = False
-			if keyevent.key == K_RIGHT:
+			if keyevent.key == K_RIGHT or keyevent.key == K_d:
 				self.controls.right = False
 
 

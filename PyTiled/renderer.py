@@ -64,7 +64,7 @@ def RenderScreen(screen, LevelData, RenderMode):
 
 def init():
 	#screensize = width, height = 1024, 768
-	screensize = width, height = 400, 300
+	screensize = width, height = 800, 600
 	titleicon = pygame.image.load('Resources/Images/baricon.gif')
 	pygame.display.set_icon(titleicon)
 	screen = pygame.display.set_mode(screensize)
