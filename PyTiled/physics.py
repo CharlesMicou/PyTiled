@@ -8,6 +8,27 @@ import math
 import tiledparser as tiled
 import copy
 
+
+def Update(MapObjects, CollisionMap, bounds):
+
+	ObjectState = copy.copy(MapObjects) #Note: This *needs* to be a shallow copy
+
+	for item in ObjectState:
+
+		if isinstance(item, Particle):
+
+			if not item.rect.colliderect(bounds):
+				MapObjects.remove(item)
+
+			if item.collision == True:
+				item.CollisionCheck(ObjectState, CollisionMap)
+
+	#Update everything in one go
+	for item in MapObjects:
+		if isinstance(item, Particle):
+			item.tick()
+
+
 class Particle:
 
 	def __init__(self, Image, Coordinates, Speed, Acceleration, collision):
@@ -76,29 +97,6 @@ class Bouncer(Particle):
 		if collisionindex != -1:
 			TwoParticleBounce(self, collideables[collisionindex])
 
-		
-
-
-
-
-def Update(MapObjects, CollisionMap, bounds):
-
-	ObjectState = copy.copy(MapObjects) #Note: This *needs* to be a shallow copy
-
-	for item in ObjectState:
-
-		if isinstance(item, Particle):
-
-			if not item.rect.colliderect(bounds):
-				MapObjects.remove(item)
-
-			if item.collision == True:
-				item.CollisionCheck(ObjectState, CollisionMap)
-
-	#Update everything in one go
-	for item in MapObjects:
-		if isinstance(item, Particle):
-			item.tick()
 
 
 def TwoParticleBounce(a, b):

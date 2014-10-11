@@ -7,6 +7,7 @@ import sys
 import os
 import string
 import math
+import level
 from pygame.locals import *
 
 
@@ -64,6 +65,12 @@ class PlayerObject(sprite.Sprite, physics.Particle):
 			if keyevent.key == K_RIGHT or keyevent.key == K_d:
 				self.controls.right = False
 
+		elif (keyevent.type == MOUSEBUTTONDOWN):
+			if keyevent.button == 1:
+				self.controls.actionqueue.append('fire')
+
+		#elif (keyevent.type == MOUSEBUTTONUP):
+
 
 	def CollisionCheck(self, MapObjects, CollisionMap):
 	
@@ -84,10 +91,6 @@ class PlayerObject(sprite.Sprite, physics.Particle):
 		collisionindex = futureself.rect.collidelist(colliderlist)
 		if collisionindex != -1:
 			physics.TwoParticleBounce(self, collideables[collisionindex])
-
-
-		
-
 
 
 
@@ -121,4 +124,28 @@ class Controls:
 		self.down = False
 		self.left = False
 		self.right = False
+		self.cursorcoords = [0,0]
+		self.actionqueue = []
+
+	def setCursor(self, coordinates):
+		self.cursorcoords = coordinates
+
+
+
+def ApplyPlayerActions(LevelData, PlayerObject):
+
+	while PlayerObject.controls.actionqueue != []:
+
+		if PlayerObject.controls.actionqueue.pop() == 'fire':
+
+			#find out where to put the projectile
+			projectilespeed = 3
+			direction = [PlayerObject.controls.cursorcoords[0] - PlayerObject.coordinates[0], PlayerObject.controls.cursorcoords[1] - PlayerObject.coordinates[1]]
+			magnitude = math.sqrt(direction[0]**2 + direction[1]**2)
+			direction = [float(direction[0])/magnitude, float(direction[1])/magnitude]
+			spawnpoint = [PlayerObject.coordinates[0] + direction[0]*PlayerObject.rect.width*1.2, PlayerObject.coordinates[1] + direction[1]*PlayerObject.rect.height*1.2]
+
+			direction = [direction[0]*projectilespeed, direction[1]*projectilespeed]
+
+			LevelData.AddObject(physics.Bouncer(pygame.image.load('Resources/Images/testprojectile.gif'),spawnpoint, direction, [0,0], 1))
 

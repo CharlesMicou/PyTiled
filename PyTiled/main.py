@@ -32,10 +32,13 @@ while 1:
 		if event.type == pygame.QUIT: sys.exit()
 		elif (event.type == KEYDOWN) or (event.type == KEYUP):
 			ourplayer.UpdateControls(event)
+		elif (event.type == MOUSEBUTTONDOWN) or (event.type == MOUSEBUTTONUP):
+			ourplayer.UpdateControls(event)
 
 		
 
 	#Update the physics simulation
+	player.ApplyPlayerActions(atestlevel, ourplayer)
 	physics.Update(atestlevel.MapObjects, atestlevel.CollisionMap, atestlevel.bounds)
 
 	#Update any player information
@@ -57,10 +60,8 @@ while 1:
 TODO LIST
 
 Renderer Module:
-Camera Pan/Other manipulations
 
 Collisions:
-Collisiontypes
 
 TileMap Module:
 Map-Linking

@@ -57,8 +57,15 @@ def RenderScreen(screen, LevelData, RenderMode):
 		screen.blit(item.image, item.rect.move(offset))
 
 
+	#Handle cursor position and set it as a player control
 	cursor_location = pygame.Rect((pygame.mouse.get_pos()[0] + cursor_rect.width/2, pygame.mouse.get_pos()[1] + cursor_rect.height/2), (cursor_rect.width, cursor_rect.height))
 	screen.blit(cursor_image, cursor_location)
+
+	for item in LevelData.MapObjects:
+		if isinstance(item, player.PlayerObject):
+			item.controls.setCursor([cursor_location.left + cursor_rect.width/2 - offset[0], cursor_location.top  + cursor_rect.height/2 - offset[1]])
+			
+
 
 	pygame.display.flip()
 
