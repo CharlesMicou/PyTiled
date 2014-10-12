@@ -7,6 +7,7 @@ import pygame
 import sprite
 import level
 import player
+import texthandler
 
 color_black = 0, 0, 0
 color_white = 255, 255, 255
@@ -119,8 +120,9 @@ def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 			
 
 	#Handle onscreen text rendering
-	"""textsurf = afont.render(str(PlayerData.controls), True, color_white)
-	screen.blit(textsurf, pygame.Rect((0,0), (100,20)))""" #todo
+	if texthandler.textqueue.text != []:
+		textsurf = afont.render(texthandler.textqueue.pop_fifo(), True, color_white)
+		screen.blit(textsurf, pygame.Rect((5,5), (100,20)))
 
 	#Update the screen
 	pygame.display.flip()

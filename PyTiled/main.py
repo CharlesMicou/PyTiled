@@ -26,7 +26,6 @@ atestlevel = level.LevelData('Resources/Maps/AnotherMap.tmx')
 ourplayer = player.PlayerObject('Resources/Images/playersprite.png', 3, 40, [400, 70])
 atestlevel.AddObject(ourplayer)
 
-print ourplayer
 
 #Game Loop
 while 1:

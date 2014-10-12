@@ -7,7 +7,7 @@ import level
 import math
 import tiledparser as tiled
 import copy
-
+import texthandler
 
 def Update(MapObjects, CollisionMap, bounds):
 

@@ -8,6 +8,7 @@ import os
 import string
 import math
 import level
+import texthandler
 from pygame.locals import *
 
 
@@ -27,6 +28,7 @@ class PlayerObject(sprite.Sprite, physics.Particle):
 		#More things can go in here as necessary
 		self.SetImage(self.currentframe)
 		self.ApplyControls()
+		texthandler.textqueue.add(str(self.controls))
 
 	def ApplyControls(self):
 
@@ -132,8 +134,16 @@ class Controls:
 		self.actionqueue = []
 
 	def __str__(self):
-		return ("Up:" + str(self.up) + " Down:" + str(self.down) + " Left:" + str(self.left) + 
-			" Right:" + str(self.right) + " Cursor:" + str(self.cursorcoords) + "\nActionqueue: " + str(self.actionqueue))
+
+		output = str(self.cursorcoords) + ' '
+
+		if self.up: output += 'UP '
+		if self.down: output += 'DOWN '
+		if self.left: output += 'LEFT '
+		if self.right: output += 'RIGHT '
+		if self.actionqueue != []: output += 'ACTION '
+
+		return output
 
 	def setCursor(self, coordinates):
 		self.cursorcoords = coordinates
