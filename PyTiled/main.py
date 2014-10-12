@@ -26,6 +26,8 @@ atestlevel = level.LevelData('Resources/Maps/AnotherMap.tmx')
 ourplayer = player.PlayerObject('Resources/Images/playersprite.png', 3, 40, [400, 70])
 atestlevel.AddObject(ourplayer)
 
+print ourplayer
+
 #Game Loop
 while 1:
 	for event in pygame.event.get():
@@ -48,10 +50,12 @@ while 1:
 	renderer.UpdateSprites(atestlevel)	
 
 	#Update the screen
-	renderer.RenderScreen(screen, atestlevel, 'followplayer')
+	renderer.RenderScreen(screen, atestlevel, ourplayer, 'followplayer')
 
 	#Enforce the framerate
 	fpsClock.tick(fpsMax)
+
+
 
 
 
@@ -60,11 +64,13 @@ while 1:
 TODO LIST
 
 Renderer Module:
+Textqueue
 
 Collisions:
 
 TileMap Module:
 Map-Linking
+
 
 
 ==================

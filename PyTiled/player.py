@@ -19,6 +19,10 @@ class PlayerObject(sprite.Sprite, physics.Particle):
 		self.controls = Controls()
 		self.maxspeed = 2
 
+	def __str__(self):
+		return ("PlayerObject at coords " + str(self.coordinates) + "  speed: " + str(self.speed) + "  accel: " + str(self.acceleration) +
+			"\n" + str(self.controls))
+
 	def Refresh(self):
 		#More things can go in here as necessary
 		self.SetImage(self.currentframe)
@@ -127,8 +131,13 @@ class Controls:
 		self.cursorcoords = [0,0]
 		self.actionqueue = []
 
+	def __str__(self):
+		return ("Up:" + str(self.up) + " Down:" + str(self.down) + " Left:" + str(self.left) + 
+			" Right:" + str(self.right) + " Cursor:" + str(self.cursorcoords) + "\nActionqueue: " + str(self.actionqueue))
+
 	def setCursor(self, coordinates):
 		self.cursorcoords = coordinates
+
 
 
 

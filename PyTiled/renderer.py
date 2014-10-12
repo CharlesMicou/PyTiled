@@ -9,9 +9,61 @@ import level
 import player
 
 color_black = 0, 0, 0
+color_white = 255, 255, 255
 
 cursor_image = pygame.image.load("Resources/Images/cursorsprite.png")
 cursor_rect = cursor_image.get_rect()
+
+
+def init():
+	
+	#Set screen size, properties
+	#screensize = width, height = 1024, 768
+	screensize = width, height = 800, 600
+	titleicon = pygame.image.load('Resources/Images/baricon.gif')
+	pygame.display.set_icon(titleicon)
+	screen = pygame.display.set_mode(screensize)
+	pygame.display.set_caption('PyTiled Engine')
+	
+	#Font definition
+	global afont 
+	afont = pygame.font.Font(None, 20)
+
+	#Cursor definition
+	empty_cursor = (            #sized 24x24
+        "                        ",
+        "                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",
+		"                        ",)
+
+	datatuple, masktuple = pygame.cursors.compile( empty_cursor,
+                                  black='.', white='X', xor='o' )
+	pygame.mouse.set_cursor( (24,24), (0,0), datatuple, masktuple )
+
+	#pygame.mouse.set_cursor(*pygame.cursors.broken_x)
+
+	return screen
+
 
 def UpdateSprites(LevelData):
 
@@ -20,7 +72,7 @@ def UpdateSprites(LevelData):
 		 	item.Advance()
 
 
-def RenderScreen(screen, LevelData, RenderMode):
+def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 
 	offset = [0,0]
 
@@ -66,48 +118,10 @@ def RenderScreen(screen, LevelData, RenderMode):
 			item.controls.setCursor([cursor_location.left + cursor_rect.width/2 - offset[0], cursor_location.top  + cursor_rect.height/2 - offset[1]])
 			
 
+	#Handle onscreen text rendering
+	"""textsurf = afont.render(str(PlayerData.controls), True, color_white)
+	screen.blit(textsurf, pygame.Rect((0,0), (100,20)))""" #todo
 
+	#Update the screen
 	pygame.display.flip()
 
-def init():
-	#screensize = width, height = 1024, 768
-	screensize = width, height = 800, 600
-	titleicon = pygame.image.load('Resources/Images/baricon.gif')
-	pygame.display.set_icon(titleicon)
-	screen = pygame.display.set_mode(screensize)
-	pygame.display.set_caption('PyTiled Engine')
-
-
-	empty_cursor = (            #sized 24x24
-        "                        ",
-        "                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",
-		"                        ",)
-
-	datatuple, masktuple = pygame.cursors.compile( empty_cursor,
-                                  black='.', white='X', xor='o' )
-	pygame.mouse.set_cursor( (24,24), (0,0), datatuple, masktuple )
-
-	#pygame.mouse.set_cursor(*pygame.cursors.broken_x)
-
-	return screen
