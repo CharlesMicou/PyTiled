@@ -7,7 +7,9 @@ import pygame
 import sprite
 import level
 import player
+import math
 import texthandler
+import numpy as np
 
 color_black = 0, 0, 0
 color_white = 255, 255, 255
@@ -106,9 +108,18 @@ def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 
 	screen.blit(LevelData.backgroundimage, LevelData.bounds.move(offset))
 
+
 	for item in LevelData.MapObjects:
 		screen.blit(item.image, item.rect.move(offset))
 
+
+	#Apply vfx
+	blurstrength = 15
+	speed = math.sqrt(PlayerData.speed[0]**2 + PlayerData.speed[1]**2)
+	if speed != 0 and speed > 1:
+		blurstrength = int(15*(PlayerData.maxspeed - speed))
+	if blurstrength != 0:
+		screen.blit(blurvfx(screen,1000,5,blurstrength),pygame.Rect((0,0), screensize))
 
 	#Handle cursor position and set it as a player control
 	cursor_location = pygame.Rect((pygame.mouse.get_pos()[0] + cursor_rect.width/2, pygame.mouse.get_pos()[1] + cursor_rect.height/2), (cursor_rect.width, cursor_rect.height))
@@ -127,3 +138,23 @@ def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 	#Update the screen
 	pygame.display.flip()
 
+
+def blurvfx(surf, blurcount, blurstrength, blursize):
+
+	finalsurf = surf
+	i = 0
+	n = 10000
+
+	while i < blurcount:
+		croprect = pygame.Rect(np.random.randint(0,surf.get_width()-blursize),np.random.randint(0,surf.get_height()-blursize),
+		 			blursize , blursize)
+
+		offset = [blurstrength*np.random.randint(-blurstrength,blurstrength),blurstrength*np.random.randint(-blurstrength,blurstrength)]
+
+		finalsurf.blit(surf, (croprect.left,croprect.top), croprect.move(offset))
+
+
+
+		i += 1
+
+	return finalsurf

@@ -34,14 +34,14 @@ class PlayerObject(sprite.Sprite, physics.Particle):
 
 		#for the moment change player responsiveness in here
 		if self.controls.right == False and self.controls.left == False:
-			self.acceleration[0] = -self.speed[0]/1
+			self.acceleration[0] = -self.speed[0]/300
 		else: 
-			self.acceleration[0] =  float((int(self.controls.right) - int(self.controls.left)))/1
+			self.acceleration[0] =  float((int(self.controls.right) - int(self.controls.left)))/70
 
 		if self.controls.down == False and self.controls.up == False:
-			self.acceleration[1] = -self.speed[1]/1
+			self.acceleration[1] = -self.speed[1]/300
 		else: 
-			self.acceleration[1] =  float((int(self.controls.down) - int(self.controls.up)))/1
+			self.acceleration[1] =  float((int(self.controls.down) - int(self.controls.up)))/70
 
 		absolutespeed = math.sqrt(self.speed[0]**2 + self.speed[1]**2)
 

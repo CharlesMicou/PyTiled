@@ -63,7 +63,7 @@ while 1:
 TODO LIST
 
 Renderer Module:
-Textqueue
+
 
 Collisions:
 
