@@ -9,7 +9,7 @@ import level
 import player
 import math
 import texthandler
-import numpy as np
+#import numpy as np
 
 color_black = 0, 0, 0
 color_white = 255, 255, 255
@@ -114,12 +114,12 @@ def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 
 
 	#Apply vfx
-	blurstrength = 15
+	"""blurstrength = 15
 	speed = math.sqrt(PlayerData.speed[0]**2 + PlayerData.speed[1]**2)
 	if speed != 0 and speed > 1:
 		blurstrength = int(15*(PlayerData.maxspeed - speed))
 	if blurstrength != 0:
-		screen.blit(blurvfx(screen,1000,5,blurstrength),pygame.Rect((0,0), screensize))
+		screen.blit(blurvfx(screen,1000,5,blurstrength),pygame.Rect((0,0), screensize))"""
 
 	#Handle cursor position and set it as a player control
 	cursor_location = pygame.Rect((pygame.mouse.get_pos()[0] + cursor_rect.width/2, pygame.mouse.get_pos()[1] + cursor_rect.height/2), (cursor_rect.width, cursor_rect.height))
@@ -139,7 +139,7 @@ def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 	pygame.display.flip()
 
 
-def blurvfx(surf, blurcount, blurstrength, blursize):
+"""def blurvfx(surf, blurcount, blurstrength, blursize):
 
 	finalsurf = surf
 	i = 0
@@ -157,4 +157,4 @@ def blurvfx(surf, blurcount, blurstrength, blursize):
 
 		i += 1
 
-	return finalsurf
+	return finalsurf"""
