@@ -17,7 +17,7 @@ pygame.init()
 fpsClock = pygame.time.Clock()
 fpsMax = 60
 
-#Set up screen as defined in renderer.py (todo: write a screen-settings file)
+#Set up screen as defined in renderer.pydd (todo: write a screen-settings file)
 screen = renderer.init()
 
 #Load a world
@@ -29,7 +29,7 @@ atestlevel = level.LevelData('Resources/Maps/AnotherMap.tmx')
 
 #Add the player to the level
 ourplayer = player.PlayerObject('Resources/Images/playersprite.png', 3, 40, [400, 70])
-atestlevel.AddObject(ourplayer)
+atestworld.get_current_level().AddObject(ourplayer)
 
 
 #Game Loop
@@ -41,20 +41,17 @@ while 1:
 		elif (event.type == MOUSEBUTTONDOWN) or (event.type == MOUSEBUTTONUP):
 			ourplayer.UpdateControls(event)
 
-		
 
 	#Update the physics simulation
-	player.ApplyPlayerActions(atestlevel, ourplayer)
-	physics.Update(atestlevel.MapObjects, atestlevel.CollisionMap, atestlevel.bounds)
-
-	#Update any player information
+	PhysicsExitCode = physics.Update(atestworld, ourplayer)
+ 
 	ourplayer.Refresh()
 
 	#Update any sprites
-	renderer.UpdateSprites(atestlevel)	
+	renderer.UpdateSprites(atestworld.get_current_level())	
 
 	#Update the screen
-	renderer.RenderScreen(screen, atestlevel, ourplayer, 'followplayer')
+	renderer.RenderScreen(screen, atestworld.get_current_level(), ourplayer, 'followplayer')
 
 	#Enforce the framerate
 	fpsClock.tick(fpsMax)

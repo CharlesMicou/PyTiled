@@ -1255,7 +1255,7 @@
   </object>
   <object name="padout" type="arrivalpoint" x="736" y="384" width="96" height="64">
    <properties>
-    <property name="destination" value="3a"/>
+    <property name="id" value="3a"/>
     <property name="position" value="none"/>
    </properties>
   </object>

@@ -9,6 +9,7 @@ import level
 import player
 import math
 import texthandler
+import mapobjects
 #import numpy as np
 
 color_black = 0, 0, 0
@@ -111,7 +112,8 @@ def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 
 
 	for item in LevelData.MapObjects:
-		screen.blit(item.image, item.rect.move(offset))
+		if isinstance(item, mapobjects.Particle):
+			screen.blit(item.image, item.rect.move(offset))
 
 
 	#Apply vfx

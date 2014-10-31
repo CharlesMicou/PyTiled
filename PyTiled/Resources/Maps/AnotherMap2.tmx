@@ -1219,7 +1219,7 @@
   </object>
   <object name="doorout" type="displacer" x="160" y="0" width="160" height="6">
    <properties>
-    <property name="id" value="2a"/>
+    <property name="destination" value="2a"/>
     <property name="position" value="top"/>
    </properties>
   </object>

@@ -1,6 +1,6 @@
 #Player class
 
-import physics
+import mapobjects
 import pygame
 import sprite
 import sys
@@ -9,14 +9,15 @@ import string
 import math
 import level
 import texthandler
+import physicstools
 from pygame.locals import *
 
 
-class PlayerObject(sprite.Sprite, physics.Particle):
+class PlayerObject(sprite.Sprite, mapobjects.Particle):
 
 	def __init__ (self, ImageFilePath, framecount, framerate, Coordinates):
 		sprite.Sprite.__init__(self, ImageFilePath, framecount, framerate)
-		physics.Particle.__init__(self, self.currentframe, Coordinates, [0.0, 0.0], [0.0, 0.0], True)
+		mapobjects.Particle.__init__(self, self.currentframe, Coordinates, [0.0, 0.0], [0.0, 0.0], True)
 		self.controls = Controls()
 		self.maxspeed = 2
 
@@ -84,11 +85,11 @@ class PlayerObject(sprite.Sprite, physics.Particle):
 		self.EnvironmentCollisionCheck(MapObjects,CollisionMap)
 
 		#Check for collisions with other particles
-		futureself = physics.Particle(self.currentframe, self.coordinates, self.speed, self.acceleration, True)
+		futureself = mapobjects.Particle(self.currentframe, self.coordinates, self.speed, self.acceleration, True)
 		futureself.tick()	
 		collideables = []
 		for item in MapObjects:
-			if isinstance(item, physics.Particle) and (item != self) and (item != futureself):
+			if isinstance(item, mapobjects.Particle) and (item != self) and (item != futureself):
 				if item.collision == True:				
 					collideables.append(item)	
 		colliderlist = []
@@ -96,7 +97,7 @@ class PlayerObject(sprite.Sprite, physics.Particle):
 			colliderlist.append(particle.rect)	
 		collisionindex = futureself.rect.collidelist(colliderlist)
 		if collisionindex != -1:
-			physics.TwoParticleBounce(self, collideables[collisionindex])
+			physicstools.TwoParticleBounce(self, collideables[collisionindex])
 
 
 
@@ -105,7 +106,7 @@ class PlayerObject(sprite.Sprite, physics.Particle):
 		#We only need to bother with this if we're trying to go anywhere
 		if self.speed[0] == 0 and self.speed[1] == 0: return
 
-		futureself = physics.Particle(self.currentframe, self.coordinates, self.speed, self.acceleration, True)
+		futureself = mapobjects.Particle(self.currentframe, self.coordinates, self.speed, self.acceleration, True)
 		futureself.tick()	
 
 		for item in CollisionMap:
@@ -167,7 +168,7 @@ def ApplyPlayerActions(LevelData, PlayerObject):
 			direction = [direction[0]*projectilespeed, direction[1]*projectilespeed]
 
 			#create the projectile
-			projectile = physics.Bouncer(pygame.image.load('Resources/Images/testprojectile.gif'),spawnpoint, direction, [0,0], 1)
+			projectile = mapobjects.Bouncer(pygame.image.load('Resources/Images/testprojectile.gif'),spawnpoint, direction, [0,0], 1)
 
 			#make sure we didn't spawn it in a wall
 
@@ -175,7 +176,7 @@ def ApplyPlayerActions(LevelData, PlayerObject):
 
 				collideables = []
 				for item in LevelData.MapObjects:
-					if isinstance(item, physics.Particle):
+					if isinstance(item, mapobjects.Particle):
 						if item.collision == True:				
 							collideables.append(item)
 
@@ -185,7 +186,7 @@ def ApplyPlayerActions(LevelData, PlayerObject):
 
 				collisionindex = projectile.rect.collidelist(colliderlist)
 				if collisionindex == -1:
-					LevelData.AddObject(physics.Bouncer(pygame.image.load('Resources/Images/testprojectile.gif'),spawnpoint, direction, [0,0], 1))
+					LevelData.AddObject(mapobjects.Bouncer(pygame.image.load('Resources/Images/testprojectile.gif'),spawnpoint, direction, [0,0], 1))
 
 			
 

@@ -4,7 +4,7 @@ import os
 import sys
 import pygame
 import string
-import physics
+import mapobjects
 import xml.etree.ElementTree as ET
 
 
@@ -75,9 +75,9 @@ class MapData:
 										collision = bool(propertyitem.attrib['value'])
 
 							if collision:
-								self.mapobjects.append(physics.Bouncer(pygame.image.load(imagepath), coordinates, speed, acceleration, collision))
+								self.mapobjects.append(mapobjects.Bouncer(pygame.image.load(imagepath), coordinates, speed, acceleration, collision))
 							else:
-								self.mapobjects.append(physics.Particle(pygame.image.load(imagepath), coordinates, speed, acceleration, collision))
+								self.mapobjects.append(mapobjects.Particle(pygame.image.load(imagepath), coordinates, speed, acceleration, collision))
 
 						if 'bouncer' in data.attrib['type']:
 
@@ -104,8 +104,35 @@ class MapData:
 										bounciness = float(propertyitem.attrib['value'])
 
 							
-							self.mapobjects.append(physics.Bouncer(pygame.image.load(imagepath), coordinates, speed, acceleration, bounciness))
+							self.mapobjects.append(mapobjects.Bouncer(pygame.image.load(imagepath), coordinates, speed, acceleration, bounciness))
+
+
+						if 'displacer' in data.attrib['type']:
+
+							coordinates = int(data.attrib['x']), int(data.attrib['y'])
+							dimensions = int(data.attrib['width']), int(data.attrib['height'])
+							destination = 'null'
+
+							for xmlwrapper in data:
+								for propertyitem in xmlwrapper:
+									if 'destination' in propertyitem.attrib['name']:
+										destination = propertyitem.attrib['value']
+
+							self.mapobjects.append(mapobjects.Displacer(coordinates[0], coordinates[1], dimensions[0], dimensions[1], destination))
 							
+
+						if 'arrivalpoint' in data.attrib['type']:
+
+							coordinates = int(data.attrib['x']), int(data.attrib['y'])
+							dimensions = int(data.attrib['width']), int(data.attrib['height'])
+							identifier = 'null'
+
+							for xmlwrapper in data:
+								for propertyitem in xmlwrapper:
+									if 'id' in propertyitem.attrib['name']:
+										identifier = propertyitem.attrib['value']
+
+							self.mapobjects.append(mapobjects.ArrivalPoint(coordinates[0], coordinates[1], dimensions[0], dimensions[1], identifier))
 
 
 					else:

@@ -4,7 +4,7 @@ import os
 import string
 import pygame
 import level
-import physics
+import mapobjects
 
 class WorldData:
 
@@ -31,8 +31,8 @@ class WorldData:
 		self.levels.append(newlevel)
 
 		for item in newlevel.MapObjects:
-			if isinstance(item, physics.ArrivalPoint):
-				if item.identifier in self.arrivalpoints.keys:
+			if isinstance(item, mapobjects.ArrivalPoint):
+				if item.identifier in self.arrivalpoints.keys():
 					print 'WARNING: DUPLICATE ArrivalPoint'
 				else:
 					self.arrivalpoints[item.identifier] = self.levels.index(newlevel)
@@ -40,5 +40,8 @@ class WorldData:
 
 	def ResetLevel(self,levelindex): #Performs a reload of the level from file. Does not alter arrivalpoints
 		self.levels[levelindex] = level.LevelData(self.levels[levelindex].MapFilePath)
+
+	def get_current_level(self):
+		return self.levels[self.currentlevel]
 
 
