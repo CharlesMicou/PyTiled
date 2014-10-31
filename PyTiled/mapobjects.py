@@ -27,6 +27,10 @@ class Particle:
 		self.rect = pygame.Rect(int(self.coordinates[0]), int(self.coordinates[1]), 
 			self.image.get_rect().width, self.image.get_rect().height)
 
+	def SetCoords(self, Coordinates):
+		self.coordinates = [Coordinates[0], Coordinates[1]]
+		self.AlignToGrid()
+
 	def tick(self):
 		self.coordinates = [self.coordinates[0] + self.speed[0], self.coordinates[1] + self.speed[1]]
 		self.speed = [self.speed[0] + self.acceleration[0], self.speed[1] + self.acceleration[1]]

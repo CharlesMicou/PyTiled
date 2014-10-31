@@ -82,8 +82,7 @@ def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 
 	screensize = screen.get_size()
 
-	if RenderMode == 'centered' or (RenderMode == 'followplayer' and screensize[0] >  LevelData.MapData.width*LevelData.MapData.tilewidth
-		 and screensize[1] > LevelData.MapData.height*LevelData.MapData.tileheight):
+	if RenderMode == 'centered':
 		offset[0] = (screensize[0] - LevelData.MapData.width*LevelData.MapData.tilewidth)/2
 		offset[1] = (screensize[1] - LevelData.MapData.height*LevelData.MapData.tileheight)/2
 
@@ -94,7 +93,7 @@ def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 				offset[0] = - (item.rect.left + item.rect.width/2 - screensize[0]/2)
 				offset[1] = - (item.rect.top + item.rect.height/2 - screensize[1]/2)
 
-
+				#Lock camera to corners
 				if offset[0] > 0:
 					offset[0] = 0
 				if offset[1] > 0:
@@ -103,6 +102,13 @@ def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 					offset[0] =  -LevelData.MapData.width*LevelData.MapData.tilewidth + screensize[0]
 				if offset[1] - screensize[1] < - LevelData.MapData.height*LevelData.MapData.tileheight:
 					offset[1] =  -LevelData.MapData.height*LevelData.MapData.tileheight + screensize[1]
+
+				#Correct for tiny maps
+				if screensize[0] >  LevelData.MapData.width*LevelData.MapData.tilewidth:
+					offset[0] = (screensize[0] - LevelData.MapData.width*LevelData.MapData.tilewidth)/2
+				if screensize[1] > LevelData.MapData.height*LevelData.MapData.tileheight:
+					offset[1] = (screensize[1] - LevelData.MapData.height*LevelData.MapData.tileheight)/2
+
 
 
 	screen.fill(color_black)

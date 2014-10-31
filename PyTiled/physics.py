@@ -45,9 +45,9 @@ def Update(WorldData, PlayerObject):
 						for testarrivalpoint in WorldData.get_current_level().MapObjects:
 							if isinstance(testarrivalpoint, mapobjects.ArrivalPoint):
 								if testarrivalpoint.identifier == item.destination:
-									PlayerObject.coordinates = [testarrivalpoint.rect.centerx - PlayerObject.rect.width/2, testarrivalpoint.rect.centery - PlayerObject.rect.height/2]
+
+									PlayerObject.SetCoords([testarrivalpoint.rect.centerx - PlayerObject.rect.width/2, testarrivalpoint.rect.centery - PlayerObject.rect.height/2])
 									WorldData.get_current_level().AddObject(PlayerObject)
-									PlayerObject.tick()
 									return
 
 
@@ -55,10 +55,8 @@ def Update(WorldData, PlayerObject):
 						for testarrivalpoint in WorldData.get_current_level().MapObjects:
 							if isinstance(testarrivalpoint, mapobjects.ArrivalPoint):
 								if testarrivalpoint.identifier == item.destination:
-									PlayerObject.coordinates = [testarrivalpoint.rect.centerx - PlayerObject.rect.width/2, testarrivalpoint.rect.centery - PlayerObject.rect.height/2]
-
-									
-					#Update position as required
+									PlayerObject.SetCoords([testarrivalpoint.rect.centerx - PlayerObject.rect.width/2, testarrivalpoint.rect.centery - PlayerObject.rect.height/2])
+								
 
 
 
