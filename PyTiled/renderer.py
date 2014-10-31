@@ -81,12 +81,13 @@ def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 
 	screensize = screen.get_size()
 
-	if RenderMode == 'centered':
+	if RenderMode == 'centered' or (RenderMode == 'followplayer' and screensize[0] >  LevelData.MapData.width*LevelData.MapData.tilewidth
+		 and screensize[1] > LevelData.MapData.height*LevelData.MapData.tileheight):
 		offset[0] = (screensize[0] - LevelData.MapData.width*LevelData.MapData.tilewidth)/2
 		offset[1] = (screensize[1] - LevelData.MapData.height*LevelData.MapData.tileheight)/2
 
 
-	if RenderMode == 'followplayer':
+	elif RenderMode == 'followplayer':
 		for item in LevelData.MapObjects:
 			if isinstance(item, player.PlayerObject):
 				offset[0] = - (item.rect.left + item.rect.width/2 - screensize[0]/2)

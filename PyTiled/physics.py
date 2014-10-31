@@ -98,6 +98,17 @@ class Bouncer(Particle):
 			TwoParticleBounce(self, collideables[collisionindex])
 
 
+class Displacer:
+	def __init__(self, left, top, width, height, destination):
+		self.rect = pygame.Rect(left, top, width, height)
+		self.destination = destination
+
+class ArrivalPoint:
+	def __init__(self, left, top, width, height, identifier):
+		self.rect = pygame.Rect(left, top, width, height)
+		self.identifier = identifier
+
+
 
 def TwoParticleBounce(a, b):
 

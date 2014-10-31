@@ -11,6 +11,7 @@ class LevelData:
 
 	def __init__(self, MapFilePath):
 
+		self.MapFilePath = MapFilePath
 		self.MapData = tiled.MapData(MapFilePath)
 		self.MapObjects = self.MapData.mapobjects
 		self.CollisionMap = tiled.GetCollisionRects(self.MapData)

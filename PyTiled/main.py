@@ -8,6 +8,7 @@ import physics
 import level
 import renderer
 import player
+import world
 from pygame.locals import *
 
 
@@ -18,6 +19,10 @@ fpsMax = 60
 
 #Set up screen as defined in renderer.py (todo: write a screen-settings file)
 screen = renderer.init()
+
+#Load a world
+atestworld = world.WorldData()
+atestworld.AddLevelFolder('Resources/Maps')
 
 #Load a level
 atestlevel = level.LevelData('Resources/Maps/AnotherMap.tmx')
