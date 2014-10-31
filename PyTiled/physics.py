@@ -14,6 +14,7 @@ import mapobjects
 
 def Update(WorldData, PlayerObject):
 
+
 	CurrentLevel = WorldData.get_current_level()
 
 	player.ApplyPlayerActions(CurrentLevel, PlayerObject)
@@ -46,6 +47,8 @@ def Update(WorldData, PlayerObject):
 								if testarrivalpoint.identifier == item.destination:
 									PlayerObject.coordinates = [testarrivalpoint.rect.centerx - PlayerObject.rect.width/2, testarrivalpoint.rect.centery - PlayerObject.rect.height/2]
 									WorldData.get_current_level().AddObject(PlayerObject)
+									PlayerObject.tick()
+									return
 
 
 					else: #destination is on the same map, no need to reload things
@@ -53,6 +56,7 @@ def Update(WorldData, PlayerObject):
 							if isinstance(testarrivalpoint, mapobjects.ArrivalPoint):
 								if testarrivalpoint.identifier == item.destination:
 									PlayerObject.coordinates = [testarrivalpoint.rect.centerx - PlayerObject.rect.width/2, testarrivalpoint.rect.centery - PlayerObject.rect.height/2]
+
 									
 					#Update position as required
 
