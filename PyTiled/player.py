@@ -29,7 +29,7 @@ class PlayerObject(sprite.Sprite, mapobjects.Particle):
 		#More things can go in here as necessary
 		self.SetImage(self.currentframe)
 		self.ApplyControls()
-		texthandler.textqueue.add(str(self.controls))
+		
 
 	def ApplyControls(self):
 
@@ -75,6 +75,7 @@ class PlayerObject(sprite.Sprite, mapobjects.Particle):
 		elif (keyevent.type == MOUSEBUTTONDOWN):
 			if keyevent.button == 1:
 				self.controls.actionqueue.append('fire')
+
 
 		#elif (keyevent.type == MOUSEBUTTONUP):
 

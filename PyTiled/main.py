@@ -24,11 +24,8 @@ screen = renderer.init()
 atestworld = world.WorldData()
 atestworld.AddLevelFolder('Resources/Maps')
 
-#Load a level
-atestlevel = level.LevelData('Resources/Maps/AnotherMap.tmx')
-
 #Add the player to the level
-ourplayer = player.PlayerObject('Resources/Images/playersprite.png', 3, 40, [400, 70])
+ourplayer = player.PlayerObject('Resources/Images/playersprite.png', 3, 10, [400, 70])
 atestworld.get_current_level().AddObject(ourplayer)
 
 
@@ -64,13 +61,15 @@ while 1:
 ==================
 TODO LIST
 
-Renderer Module:
+Texthandler:
+Fix the really bad queue system
 
+Renderer Module:
 
 Collisions:
 
 TileMap Module:
-Map-Linking
+
 
 
 
