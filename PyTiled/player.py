@@ -20,6 +20,8 @@ class PlayerObject(sprite.Sprite, mapobjects.Particle):
 		mapobjects.Particle.__init__(self, self.currentframe, Coordinates, [0.0, 0.0], [0.0, 0.0], True)
 		self.controls = Controls()
 		self.maxspeed = 2
+		self.angle = 0
+		self.maxrotatespeed = 10
 
 	def __str__(self):
 		return ("PlayerObject at coords " + str(self.coordinates) + "  speed: " + str(self.speed) + "  accel: " + str(self.acceleration) +
@@ -36,7 +38,7 @@ class PlayerObject(sprite.Sprite, mapobjects.Particle):
 	def ApplyControls(self):
 
 		#for the moment change player responsiveness in here
-		if self.controls.right == False and self.controls.left == False:
+		"""if self.controls.right == False and self.controls.left == False:
 			self.acceleration[0] = -self.speed[0]/1
 		else: 
 			self.acceleration[0] =  float((int(self.controls.right) - int(self.controls.left)))/1
@@ -44,9 +46,29 @@ class PlayerObject(sprite.Sprite, mapobjects.Particle):
 		if self.controls.down == False and self.controls.up == False:
 			self.acceleration[1] = -self.speed[1]/1
 		else: 
-			self.acceleration[1] =  float((int(self.controls.down) - int(self.controls.up)))/1
+			self.acceleration[1] =  float((int(self.controls.down) - int(self.controls.up)))/1"""
+
+		#New control scheme
+
+		accelrotated = [0,0] #Forwards, perpendicular
+		angleinradians = self.angle*math.pi/180
+		speedrotated = [-self.speed[0]*math.sin(angleinradians) - self.speed[1]*math.cos(angleinradians), 
+						self.speed[0]*math.cos(angleinradians) - self.speed[1]*math.sin(angleinradians)]
+		
+		accelrotated[0] =  float((-int(self.controls.down) + int(self.controls.up)))/1 - speedrotated[0]/5
+		accelrotated[1] = float((int(self.controls.right) - int(self.controls.left)))/1 - speedrotated[1]/3
+
+		self.acceleration = [accelrotated[0]*-math.sin(angleinradians) + accelrotated[1]*math.cos(angleinradians),
+					  -accelrotated[0]*math.cos(angleinradians) - accelrotated[1]*math.sin(angleinradians)]
+
+		#Prevent drift
+		if self.controls.right == False and self.controls.left == False and self.controls.up == False and self.controls.down == False:
+			self.acceleration[0] = -self.speed[0]/1
+			self.acceleration[1] = -self.speed[1]/1
+
 
 		absolutespeed = math.sqrt(self.speed[0]**2 + self.speed[1]**2)
+
 
 		if absolutespeed > self.maxspeed:
 			self.speed = [self.speed[0]/absolutespeed*self.maxspeed, self.speed[1]/absolutespeed*self.maxspeed]
@@ -118,7 +140,16 @@ class PlayerObject(sprite.Sprite, mapobjects.Particle):
 		else:
 			rotateangle = math.atan(float(x/y))*180/math.pi
 
+
+		"""if abs(rotateangle - self.angle) > self.maxrotatespeed:
+			if rotateangle < self.angle:
+				rotateangle = self.angle - self.maxrotatespeed
+			else:
+				rotateangle = self.angle + self.maxrotatespeed"""
+
 		self.SetImage(pygame.transform.rotozoom(self.image,rotateangle,1))
+
+		self.angle = rotateangle
 
 
 	def EnvironmentCollisionCheck(self, MapObjects, CollisionMap):
@@ -126,7 +157,7 @@ class PlayerObject(sprite.Sprite, mapobjects.Particle):
 		#We only need to bother with this if we're trying to go anywhere
 		if self.speed[0] == 0 and self.speed[1] == 0: return
 
-		futureself = mapobjects.Particle(self.currentframe, self.coordinates, self.speed, self.acceleration, True)
+		futureself = mapobjects.Particle(self.image, self.coordinates, self.speed, self.acceleration, True)
 		futureself.tick()	
 
 		for item in CollisionMap:

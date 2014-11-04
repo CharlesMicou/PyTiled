@@ -27,6 +27,7 @@ class Particle:
 		self.rect = pygame.Rect(int(self.coordinates[0]), int(self.coordinates[1]), 
 			self.image.get_rect().width, self.image.get_rect().height)
 
+
 	def SetCoords(self, Coordinates):
 		self.coordinates = [Coordinates[0], Coordinates[1]]
 		self.AlignToGrid()
@@ -38,6 +39,7 @@ class Particle:
 
 	def SetImage(self, Image):
 		self.image = Image
+		self.AlignToGrid()
 
 
 class Bouncer(Particle):

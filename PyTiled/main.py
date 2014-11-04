@@ -25,7 +25,7 @@ atestworld = world.WorldData()
 atestworld.AddLevelFolder('Resources/Maps')
 
 #Add the player to the level
-ourplayer = player.PlayerObject('Resources/Images/playersprite.png', 3, 30, [400, 70])
+ourplayer = player.PlayerObject('Resources/Images/playersprite.png', 3, 15, [400, 70])
 atestworld.get_current_level().AddObject(ourplayer)
 
 
