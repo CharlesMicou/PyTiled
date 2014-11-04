@@ -29,6 +29,8 @@ class PlayerObject(sprite.Sprite, mapobjects.Particle):
 		#More things can go in here as necessary
 		self.SetImage(self.currentframe)
 		self.ApplyControls()
+
+		self.FaceCursor()
 		
 
 	def ApplyControls(self):
@@ -100,6 +102,23 @@ class PlayerObject(sprite.Sprite, mapobjects.Particle):
 		if collisionindex != -1:
 			physicstools.TwoParticleBounce(self, collideables[collisionindex])
 
+	def FaceCursor(self):
+		rotateangle = 0
+		x = self.controls.cursorcoords[0] - self.coordinates[0] - self.rect.width/2
+		y = self.controls.cursorcoords[1] - self.coordinates[1] - self.rect.height/2
+
+		if y == 0:
+			if x > 0: 
+				rotateangle = 270
+			else: rotateangle = 90
+
+		elif y > 0:
+			rotateangle = math.atan(float(x/y))*180/math.pi + 180
+
+		else:
+			rotateangle = math.atan(float(x/y))*180/math.pi
+
+		self.SetImage(pygame.transform.rotozoom(self.image,rotateangle,1))
 
 
 	def EnvironmentCollisionCheck(self, MapObjects, CollisionMap):

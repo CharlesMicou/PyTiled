@@ -76,6 +76,7 @@ def UpdateSprites(LevelData):
 		 	item.Advance()
 
 
+
 def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 
 	offset = [0,0]
@@ -116,10 +117,11 @@ def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 
 	screen.blit(LevelData.backgroundimage, LevelData.bounds.move(offset))
 
-
+	#Render everything except the player
 	for item in LevelData.MapObjects:
 		if isinstance(item, mapobjects.Particle):
-			screen.blit(item.image, item.rect.move(offset))
+			if not isinstance(item, player.PlayerObject):
+				screen.blit(item.image, item.rect.move(offset))
 
 
 	#Apply vfx
@@ -136,8 +138,11 @@ def RenderScreen(screen, LevelData,  PlayerData, RenderMode):
 
 	for item in LevelData.MapObjects:
 		if isinstance(item, player.PlayerObject):
+			#Set the cursor
 			item.controls.setCursor([cursor_location.left + cursor_rect.width/2 - offset[0], cursor_location.top  + cursor_rect.height/2 - offset[1]])
-			
+			#Draw the player
+			screen.blit(item.image, item.rect.move(offset))
+
 
 	#Handle onscreen text rendering
 	if texthandler.textqueue.text != []:
